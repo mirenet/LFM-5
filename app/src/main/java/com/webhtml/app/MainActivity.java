@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         "      };" +
                         "      reader.readAsDataURL(blob);" +
                         "    }).catch(err => window.AndroidBridge.cacheData('ERROR'));" +
-                        "})();";
+                        })();";
                 webView.evaluateJavascript(js, null);
 
                 webView.postDelayed(() -> DialogHelper.showNativeDownloadDialog(
@@ -97,6 +97,24 @@ public class MainActivity extends AppCompatActivity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                
+                String jsBypass = "(function() {" +
+                        "  Object.defineProperty(document, 'hidden', { value: false, configurable: true });" +
+                        "  Object.defineProperty(document, 'visibilityState', { value: 'visible', configurable: true });" +
+                        "  Object.defineProperty(document, 'webkitHidden', { value: false, configurable: true });" +
+                        "  Object.defineProperty(document, 'webkitVisibilityState', { value: 'visible', configurable: true });" +
+                        "  " +
+                        "  window.addEventListener('visibilitychange', function(e) { e.stopImmediatePropagation(); }, true);" +
+                        "  document.addEventListener('visibilitychange', function(e) { e.stopImmediatePropagation(); }, true);" +
+                        "  window.addEventListener('blur', function(e) { e.stopImmediatePropagation(); }, true);" +
+                        "})();";
+
+                view.evaluateJavascript(jsBypass, null);
             }
 
             @Override
