@@ -100,24 +100,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                
-                String jsBypass = "(function() {" +
-                        "  Object.defineProperty(document, 'hidden', { value: false, configurable: true });" +
-                        "  Object.defineProperty(document, 'visibilityState', { value: 'visible', configurable: true });" +
-                        "  Object.defineProperty(document, 'webkitHidden', { value: false, configurable: true });" +
-                        "  Object.defineProperty(document, 'webkitVisibilityState', { value: 'visible', configurable: true });" +
-                        "  " +
-                        "  window.addEventListener('visibilitychange', function(e) { e.stopImmediatePropagation(); }, true);" +
-                        "  document.addEventListener('visibilitychange', function(e) { e.stopImmediatePropagation(); }, true);" +
-                        "  window.addEventListener('blur', function(e) { e.stopImmediatePropagation(); }, true);" +
-                        "})();";
-
-                view.evaluateJavascript(jsBypass, null);
-            }
-
-            @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
                 String urlStr = request.getUrl().toString();
                 if (!urlStr.contains("#")) {
@@ -225,6 +207,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
         webView.loadUrl("file:///android_asset/index.html");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (webView != null) {
+            webView.onPause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (webView != null) {
+            webView.onResume();
+        }
     }
 
     @Override
