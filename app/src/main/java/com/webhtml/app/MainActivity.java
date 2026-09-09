@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         "      };" +
                         "      reader.readAsDataURL(blob);" +
                         "    }).catch(err => window.AndroidBridge.cacheData('ERROR'));" +
-                        })();";
+                        "})();";
                 webView.evaluateJavascript(js, null);
 
                 webView.postDelayed(() -> DialogHelper.showNativeDownloadDialog(
