@@ -100,10 +100,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPageFinished(WebView view, String url) { 
+            public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            // Postavlja zastavicu - ako se učitava lokalni fajl
+            if (url != null && url.startsWith("file://")) {
             webView.evaluateJavascript("window.webhtml = true;", null);
-            }
+            }}
 
             @Override
             public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
