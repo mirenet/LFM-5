@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             // Postavlja zastavicu - ako se učitava lokalni fajl
-            if (url != null && url.startsWith("http")) {
+            if (url != null && url.startsWith("file://")) {
             webView.evaluateJavascript("window.webhtml = true;", null);
             }}
             
